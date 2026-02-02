@@ -1,0 +1,9 @@
+pytest
+selenium
+webdriver-manager
+pytest-html
+pytest-xdist
+pytest-rerunfailures
+requests
+faker
+python-dateutil
