@@ -18,3 +18,4 @@ products = driver.find_elements(By.CLASS_NAME, "inventory_item")
 # 👉 Clicks 2nd product’s “Add to cart” button
 products[1].find_element(By.TAG_NAME,"button").click()
 
+# Checking commits
