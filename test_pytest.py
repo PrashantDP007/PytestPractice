@@ -56,6 +56,7 @@ def test_google_search():
 
     search_locator = (By.XPATH, "//div[@jsname='VlcLAe']//input[@value='Google Search']")
     print("Test Jenkins Trigger")
+    print("Adding this line to check the git commit jenkins trigger")
     search = wait.until(EC.visibility_of_element_located(search_locator)) # after explicit wait
     search.click()
 
