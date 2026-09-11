@@ -47,8 +47,7 @@ from selenium.webdriver.support import expected_conditions as EC
 # driver.switch_to.window(driver.window_handles[1]) # google
 # driver.switch_to.window(driver.window_handles[2]) # facebbok
 
-def test_google_search():
-    driver = webdriver.Chrome()
+def test_google_search(driver):
     wait = WebDriverWait(driver, 5)
     driver.get('https://www.google.com')
     driver.find_element(By.XPATH, "//textarea[contains(@jsname,'yZiJ')]").clear()

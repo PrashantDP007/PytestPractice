@@ -1,0 +1,107 @@
+import requests
+
+import requests
+from requests import auth
+
+response = requests.get("https://library-api.postmanlabs.com/books")
+
+print(response.status_code)
+print(response.text)
+print(response.json())
+print(response.headers)
+print(response.cookies)
+print(response.elapsed)
+print(response.url)
+print(response.request.method)
+data = response.json()
+print(data[0]["title"])
+
+def test_api_response():
+    assert response.status_code == 200
+    assert "title" in response.json()
+    assert response.headers["Content-Type"] == "application/json; charset=utf-8"
+    assert response.elapsed.total_seconds() < 1
+
+# api test case to check if the response contains the expected data
+def test_api_response_data():
+    data = response.json()
+    assert isinstance(data, list)
+    assert len(data) > 0
+    for book in data:
+        print(book)
+        assert "title" in book
+        assert "author" in book
+        assert "isbn" in book
+id = ""
+# api test case to create a book sample {'title': 'Learning API', 'author': 'Prashant Pardeshi', 'genre': 'computers', 'yearPublished': 2026}
+def test_create_book():
+    global id
+    url = "https://library-api.postmanlabs.com/books"
+    # authentication = ("api-key", "postmanrulz")  # Replace with your actual credentials
+    # provide authentication inside header "api-key", "postmanrulz"    
+    headers = {
+        "Content-Type": "application/json",
+        "api-key": "postmanrulz"
+    }
+    payload = {
+        "title": "Learning API",
+        "author": "Prashant Pardeshi",
+        "genre": "computers",
+        "yearPublished": 2026
+    }
+    response = requests.post(url, json=payload, headers=headers)
+    assert response.status_code == 201
+    data = response.json()
+    assert data["title"] == payload["title"]
+    assert data["author"] == payload["author"]
+    assert data["genre"] == payload["genre"]
+    assert data["yearPublished"] == payload["yearPublished"]
+    print(f"Book created successfully with id: {data['id']}")
+    # i want to get the book by id and print the response here id can be used for path parameter in the url and also in the header as "id": data["id"]
+    response2 = requests.get(f"https://library-api.postmanlabs.com/books/{data['id']}", headers={"api-key": "postmanrulz"})
+    print(response2.json())
+    id = data["id"]
+    book = response2.json()
+    print(book["title"])
+    print(book["author"])
+    print(book["genre"])
+    print(book["yearPublished"])
+
+def test_update_book():
+    # i need to update the book created in the previous test case using the id from the response and also in the header as "id": data["id"] 7016219b-33bd-4a13-bfa2-36fca45f737b
+    url = f"https://library-api.postmanlabs.com/books/{id}"
+    headers = {
+        "Content-Type": "application/json",
+        "api-key": "postmanrulz",
+        "id": id
+    }           
+    payload = {
+        "title": "Learning API Updated1",        
+        "author": "Prashant Pardeshi Updated1",
+        "genre": "computers Updated1",
+        "yearPublished": 2026
+    }
+    response = requests.patch(url, json=payload, headers=headers)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["title"] == payload["title"]
+    assert data["author"] == payload["author"]  
+    assert data["genre"] == payload["genre"]
+    assert data["yearPublished"] == payload["yearPublished"]
+    print(f"Book with id {id} updated successfully.")
+    print(f"Updated book data: title: {data['title']}, author: {data['author']}, genre: {data['genre']}, yearPublished: {data['yearPublished']}")
+
+def test_delete_book():
+    url = f"https://library-api.postmanlabs.com/books/{id}"
+    headers = {
+        "Content-Type": "application/json",
+        "api-key": "postmanrulz",
+        "id": id
+    }
+    response = requests.delete(url, headers=headers)
+    assert response.status_code == 204
+    print(f"Book with id {id} deleted successfully.")
+
+test_create_book()
+test_update_book()
+test_delete_book()
