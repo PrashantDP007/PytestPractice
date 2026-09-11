@@ -18,7 +18,9 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                bat 'pytest -vs test_pytest.py --alluredir=allure-results'
+                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                    bat 'pytest -vs test_pytest.py --alluredir=allure-results'
+                }
             }
         }
         stage('Allure Report') {
