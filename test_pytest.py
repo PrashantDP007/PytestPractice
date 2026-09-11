@@ -54,7 +54,9 @@ def test_google_search(driver):
     driver.find_element(By.XPATH, "//textarea[contains(@jsname,'yZiJ')]").send_keys("Prashant Pardeshi")
 
     search_locator = (By.XPATH, "//div[@jsname='VlcLAe']//input[@value='Google Search']")
-
+    print("Test Jenkins Trigger")
+    print("Adding this line to check the git commit jenkins trigger")
+    print("Adding this line to check the git commit jenkins trigger2")
     search = wait.until(EC.visibility_of_element_located(search_locator)) # after explicit wait
     search.click()
 
