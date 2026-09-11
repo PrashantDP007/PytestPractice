@@ -1,7 +1,17 @@
 pipeline {
 
     agent any
-
+    parameters {
+        choice(
+            name: 'TEST_FILE',
+            choices: [
+                'test_pytest.py',
+                'test_api.py',
+                'test_pytest_features.py'
+            ],
+            description: 'Select the test file to execute'
+        )
+    }
     stages {
 
         stage('Checkout') {
@@ -19,7 +29,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                    bat 'pytest -vs test_pytest.py --alluredir=allure-results'
+                    bat 'pytest -vs %TEST_FILE% --alluredir=allure-results'
                 }
             }
         }
