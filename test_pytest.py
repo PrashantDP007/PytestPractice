@@ -1,3 +1,4 @@
+import allure
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
@@ -46,7 +47,11 @@ from selenium.webdriver.support import expected_conditions as EC
 # driver.switch_to.window(driver.window_handles[0]) # git
 # driver.switch_to.window(driver.window_handles[1]) # google
 # driver.switch_to.window(driver.window_handles[2]) # facebbok
-
+@allure.feature("Google Search Feature")
+@allure.story("Google Search Test Case")
+@allure.severity(allure.severity_level.CRITICAL)
+@allure.description("This test case is to check the google search functionality")
+@allure.step("Open Google.com and search for Prashant Pardeshi")
 def test_google_search(driver):
     wait = WebDriverWait(driver, 5)
     driver.get('https://www.google.com')
@@ -60,13 +65,19 @@ def test_google_search(driver):
     search = wait.until(EC.visibility_of_element_located(search_locator)) # after explicit wait
     search.click()
 
+
+@allure.feature("Google Search Feature")
+@allure.story("Google Search Test Case")
+@allure.severity(allure.severity_level.CRITICAL)
+@allure.description("This test case is to check the google search functionality with explicit wait and wrong xpath to check the failure in jenkins")
+@allure.step("Open Google.com and search for Prashant Pardeshi")
 def test_google_search_with_wait(driver):
     wait = WebDriverWait(driver, 5)
     driver.get('https://www.google.com')
     driver.find_element(By.XPATH, "//textarea[contains(@jsname,'yZiJ')]").clear()
     driver.find_element(By.XPATH, "//textarea[contains(@jsname,'yZiJ')]").send_keys("Prashant Pardeshi")
 
-    search_locator = (By.XPATH, "//div[@jsname='VlcLAe']//input[@value='Google Search']")
+    search_locator = (By.XPATH, "//div[@jsname='VlcLAe']//input[@value='Google Search1']") # wrong xpath to check the failure in jenkins
     search = wait.until(EC.visibility_of_element_located(search_locator)) # after explicit wait
     search.click()
 

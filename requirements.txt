@@ -7,3 +7,4 @@ pytest-rerunfailures
 requests
 faker
 python-dateutil
+allure-pytest
