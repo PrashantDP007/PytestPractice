@@ -60,3 +60,13 @@ def test_google_search(driver):
     search = wait.until(EC.visibility_of_element_located(search_locator)) # after explicit wait
     search.click()
 
+def test_google_search_with_wait(driver):
+    wait = WebDriverWait(driver, 5)
+    driver.get('https://www.google.com')
+    driver.find_element(By.XPATH, "//textarea[contains(@jsname,'yZiJ')]").clear()
+    driver.find_element(By.XPATH, "//textarea[contains(@jsname,'yZiJ')]").send_keys("Prashant Pardeshi")
+
+    search_locator = (By.XPATH, "//div[@jsname='VlcLAe']//input[@value='Google Search']")
+    search = wait.until(EC.visibility_of_element_located(search_locator)) # after explicit wait
+    search.click()
+
