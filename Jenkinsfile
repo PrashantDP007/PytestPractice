@@ -21,5 +21,14 @@ pipeline {
                 bat 'pytest -vs test_pytest.py'
             }
         }
+        stage('Allure Report') {
+            steps {
+                allure([
+                    results: [
+                        [path: 'allure-results']
+                    ]
+                ])
+            }
+        }
     }
 }
