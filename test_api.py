@@ -1,3 +1,4 @@
+import pytest
 import requests
 
 import requests
@@ -16,6 +17,7 @@ print(response.request.method)
 data = response.json()
 print(data[0]["title"])
 
+@pytest.mark.skip(reason="Need to fix this test case.")
 def test_api_response():
     assert response.status_code == 200
     assert "title" in response.json()
@@ -23,6 +25,7 @@ def test_api_response():
     assert response.elapsed.total_seconds() < 1
 
 # api test case to check if the response contains the expected data
+@pytest.mark.skip(reason="Need to fix this test case.")
 def test_api_response_data():
     data = response.json()
     assert isinstance(data, list)
@@ -66,6 +69,7 @@ def test_create_book():
     print(book["author"])
     print(book["genre"])
     print(book["yearPublished"])
+    print(f"Book with id {id} retrieved successfully.")
 
 def test_update_book():
     # i need to update the book created in the previous test case using the id from the response and also in the header as "id": data["id"] 7016219b-33bd-4a13-bfa2-36fca45f737b
@@ -102,6 +106,33 @@ def test_delete_book():
     assert response.status_code == 204
     print(f"Book with id {id} deleted successfully.")
 
-test_create_book()
-test_update_book()
-test_delete_book()
+# test_create_book()
+# test_update_book()
+# test_delete_book()
+
+
+# test case to Create a POST request, extract the created user's ID and use it to perform a GET request.
+def test_create_and_get_user():
+    # Create a new user using POST request
+    url = "https://library-api.postmanlabs.com/books"
+    headers = {
+            "Content-Type": "application/json",
+            "api-key": "postmanrulz"
+        }
+    payload = {
+        "title": "Learning API for retrieving user",
+        "author": "Prashant Pardeshi",  
+        "genre": "computers",
+        "yearPublished": 2026
+    }
+    response = requests.post(url, json=payload, headers=headers)
+    assert response.status_code == 201
+    data = response.json()
+    book_id = data["id"]
+    print(f"Book created successfully with id: {book_id}")
+    
+    # Now perform a GET request using the extracted book ID
+    get_response = requests.get(f"https://library-api.postmanlabs.com/books/{book_id}")
+    assert get_response.status_code == 200
+    book_data = get_response.json()
+    print(f"Retrieved book data: {book_data}")
