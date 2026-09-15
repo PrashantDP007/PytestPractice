@@ -136,3 +136,10 @@ def test_create_and_get_user():
     assert get_response.status_code == 200
     book_data = get_response.json()
     print(f"Retrieved book data: {book_data}")
+
+
+# create test to validate response time, i want to check if the response time is less than 1 second, if not then fail the test case
+def test_response_time():
+    response = requests.get("https://library-api.postmanlabs.com/books")
+    print(f"Response time: {response.elapsed.total_seconds()} seconds")
+    assert response.elapsed.total_seconds() < 1, f"Response time is too long: {response.elapsed.total_seconds()} seconds"
