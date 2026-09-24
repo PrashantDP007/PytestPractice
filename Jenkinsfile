@@ -7,7 +7,8 @@ pipeline {
             choices: [
                 'test_pytest.py',
                 'test_api.py',
-                'test_pytest_features.py'
+                'test_pytest_features.py',
+                'test_book_api.py'
             ],
             description: 'Select the test file to execute'
         )
