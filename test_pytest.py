@@ -1,4 +1,5 @@
 import allure
+import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
@@ -79,5 +80,19 @@ def test_google_search_with_wait(driver):
 
     search_locator = (By.XPATH, "//div[@jsname='VlcLAe']//input[@value='Google Search1']") # wrong xpath to check the failure in jenkins
     search = wait.until(EC.visibility_of_element_located(search_locator)) # after explicit wait
+    search.click()
+
+
+# pytest params test case to check the google search functionality with 2 params data driven test case
+@allure.feature("Google Search Feature")
+@pytest.mark.parametrize("search_term", ["Prashant Pardeshi", "Python", "Selenium"])
+def test_google_search_data_driven(driver, search_term):
+    wait = WebDriverWait(driver, 5)
+    driver.get('https://www.google.com')
+    driver.find_element(By.XPATH, "//textarea[contains(@jsname,'yZiJ')]").clear()
+    driver.find_element(By.XPATH, "//textarea[contains(@jsname,'yZiJ')]").send_keys(search_term)
+
+    search_locator = (By.XPATH, "//div[@jsname='VlcLAe']//input[@value='Google Search']")
+    search = wait.until(EC.visibility_of_element_located(search_locator))
     search.click()
 
