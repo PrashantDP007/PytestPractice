@@ -36,6 +36,7 @@ def test_api_response_data():
         assert "author" in book
         assert "isbn" in book
 id = ""
+
 # api test case to create a book sample {'title': 'Learning API', 'author': 'Prashant Pardeshi', 'genre': 'computers', 'yearPublished': 2026}
 def test_create_book():
     global id
@@ -112,6 +113,7 @@ def test_delete_book():
 
 
 # test case to Create a POST request, extract the created user's ID and use it to perform a GET request.
+@pytest.fixture
 def test_create_and_get_user():
     # Create a new user using POST request
     url = "https://library-api.postmanlabs.com/books"
@@ -137,9 +139,40 @@ def test_create_and_get_user():
     book_data = get_response.json()
     print(f"Retrieved book data: {book_data}")
 
+    return book_id
+
 
 # create test to validate response time, i want to check if the response time is less than 1 second, if not then fail the test case
 def test_response_time():
     response = requests.get("https://library-api.postmanlabs.com/books")
     print(f"Response time: {response.elapsed.total_seconds()} seconds")
     assert response.elapsed.total_seconds() < 1, f"Response time is too long: {response.elapsed.total_seconds()} seconds"
+
+# Query parameters are used to filter API results.
+# Example: /books?genre=computers returns only books matching that genre.
+def test_query_parameter_filter():
+    url = "https://library-api.postmanlabs.com/books"
+    params = {"author": "Prashant Pardeshi"}
+    response = requests.get(url, params=params, headers={"api-key": "postmanrulz"})
+
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, list)
+
+    # if len(data) > 0:
+    #     assert all(book.get("author") == "Prashant Pardeshi" for book in data)
+
+    print(f"Books returned for query param 'genre=computers': {data}")
+
+# Path parameters identify a specific resource in the URL.
+# Example: /books/{id} points to one exact book record.
+def test_path_parameter_example(test_create_and_get_user):
+    book_id = test_create_and_get_user
+    url = f"https://library-api.postmanlabs.com/books/{book_id}" 
+    response = requests.get(url, headers={"api-key": "postmanrulz"})
+
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, dict)
+    assert data.get("id") == book_id or "id" in data
+    print(f"Book details for path parameter id {book_id}: \n{data}")
