@@ -197,7 +197,7 @@ def test_tc05_delete_existing_book(created_book):
 
 @allure.feature("Book API")
 @allure.story("Get Deleted Book")
-@allure.severity(allure.severity_level.HIGH)
+@allure.severity(allure.severity_level.CRITICAL)
 @allure.description("Verify that retrieving a deleted book returns HTTP 404.")
 @allure.step("Delete a book and verify GET returns HTTP 404")
 def test_tc06_get_deleted_book(deleted_book):
@@ -227,7 +227,7 @@ def test_tc07_get_invalid_book_id():
 
 @allure.feature("Book API")
 @allure.story("Negative Create Book")
-@allure.severity(allure.severity_level.HIGH)
+@allure.severity(allure.severity_level.CRITICAL)
 @allure.description("Verify that creating a book without a mandatory field is rejected.")
 @allure.step("Create a book without the title field and verify HTTP 400 or 422")
 def test_tc08_create_book_missing_mandatory_field():
@@ -241,7 +241,7 @@ def test_tc08_create_book_missing_mandatory_field():
 
 @allure.feature("Book API")
 @allure.story("Negative Create Book")
-@allure.severity(allure.severity_level.HIGH)
+@allure.severity(allure.severity_level.CRITICAL)
 @allure.description("Verify that invalid field data types are rejected.")
 @allure.step("Send an invalid data type for yearPublished and verify HTTP 400 or 422")
 def test_tc09_create_book_invalid_data_type():
@@ -353,7 +353,7 @@ def test_tc15_large_invalid_payload():
 
 @allure.feature("Book API")
 @allure.story("Response Schema")
-@allure.severity(allure.severity_level.HIGH)
+@allure.severity(allure.severity_level.CRITICAL)
 @allure.description("Verify that book responses contain the expected fields and data types.")
 @allure.step("Get books and validate response schema")
 def test_tc16_response_schema_validation():
@@ -408,7 +408,7 @@ def test_tc18_verify_headers():
 
 @allure.feature("Book API")
 @allure.story("Rate Limiting")
-@allure.severity(allure.severity_level.LOW)
+@allure.severity(allure.severity_level.MINOR)
 @allure.description("Verify that HTTP 429 is returned when the configured API rate limit is exceeded.")
 @allure.step("Send repeated requests and verify HTTP 429 when the limit is exceeded")
 def test_tc19_rate_limiting():
