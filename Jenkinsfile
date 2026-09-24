@@ -29,11 +29,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                    bat '''
-                        if exist allure-results rmdir /s /q allure-results
-
-                        pytest -vs %TEST_FILE% --alluredir=allure-results
-                    '''
+                    bat 'pytest -vs %TEST_FILE% --alluredir=allure-results'
                 }
             }
         }
