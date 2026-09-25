@@ -8,7 +8,8 @@ pipeline {
                 'test_pytest.py',
                 'test_api.py',
                 'test_pytest_features.py',
-                'test_book_api.py'
+                'test_book_api.py',
+                'test_data_driven_api_chaining.py'
             ],
             description: 'Select the test file to execute'
         )
